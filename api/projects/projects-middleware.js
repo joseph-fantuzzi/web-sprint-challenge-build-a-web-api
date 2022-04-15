@@ -30,15 +30,10 @@ function validateProject(req, res, next) {
     name.trim() === "" ||
     description.trim() === ""
   ) {
-    res.status(400).json({ message: "Missing required name and description fields." });
+    res.status(400).json({ message: "Missing required name and description field." });
   } else {
-    if (completed) {
-      req.newProject = { name: name.trim(), description: description.trim(), completed: completed };
-      next();
-    } else {
-      req.newProject = { name: name.trim(), description: description.trim() };
-      next();
-    }
+    req.newProject = { name: name.trim(), description: description.trim(), completed: completed };
+    next();
   }
 }
 

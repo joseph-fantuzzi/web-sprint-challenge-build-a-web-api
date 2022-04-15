@@ -34,13 +34,17 @@ router.post("/", validateProject, (req, res) => {
 });
 
 router.put("/:id", validateProjectId, validateProject, (req, res) => {
-  ProjectsModel.update(req.project.id, req.newProject)
-    .then((project) => {
-      res.status(200).json(project);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "There was an error in updating the project." });
-    });
+  if (req.newProject.completed === undefined) {
+    res.status(400).json({ message: "Completed field is required." });
+  } else {
+    ProjectsModel.update(req.project.id, req.newProject)
+      .then((project) => {
+        res.status(200).json(project);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: "There was an error in updating the project." });
+      });
+  }
 });
 
 router.delete("/:id", validateProjectId, (req, res) => {
