@@ -14,7 +14,6 @@ router.get("/", (req, res) => {
       res.status(200).json(projects);
     })
     .catch((err) => {
-      console.log(err);
       res.status(500).json({ message: "There was an error in retrieving the projects." });
     });
 });
@@ -63,7 +62,6 @@ router.get("/:id/actions", validateProjectId, (req, res) => {
       res.status(200).json(actions);
     })
     .catch((err) => {
-      console.log(err);
       res
         .status(500)
         .json({ message: "There was an error in retrieving the actions for this project." });
