@@ -33,13 +33,17 @@ router.post("/", validateAction, (req, res) => {
 });
 
 router.put("/:id", validateActionId, validateAction, (req, res) => {
-  ActionsModel.update(req.action.id, req.newAction)
-    .then((action) => {
-      res.status(200).json(action);
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "There was an error in updating the action." });
-    });
+  if (req.newAction.completed === undefined) {
+    res.status(400).json({ message: "Completed field is required." });
+  } else {
+    ActionsModel.update(req.action.id, req.newAction)
+      .then((action) => {
+        res.status(200).json(action);
+      })
+      .catch((err) => {
+        res.status(500).json({ message: "There was an error in updating the action." });
+      });
+  }
 });
 
 router.delete("/:id", validateActionId, (req, res) => {

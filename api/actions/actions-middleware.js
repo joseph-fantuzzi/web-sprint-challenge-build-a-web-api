@@ -36,22 +36,13 @@ function validateAction(req, res, next) {
       .status(400)
       .json({ message: "Missing required project_id, description, and notes fields." });
   } else {
-    if (completed) {
-      req.newAction = {
-        project_id: project_id,
-        description: description.trim(),
-        notes: notes.trim(),
-        completed: completed,
-      };
-      next();
-    } else {
-      req.newAction = {
-        project_id: project_id,
-        description: description.trim(),
-        notes: notes.trim(),
-      };
-      next();
-    }
+    req.newAction = {
+      project_id: project_id,
+      description: description.trim(),
+      notes: notes.trim(),
+      completed: completed,
+    };
+    next();
   }
 }
 
