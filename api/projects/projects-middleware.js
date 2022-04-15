@@ -20,4 +20,26 @@ function validateProjectId(req, res, next) {
     });
 }
 
-module.exports = { validateProjectId };
+function validateProject(req, res, next) {
+  const { name, description, completed } = req.body;
+  if (
+    !name ||
+    !description ||
+    typeof name !== "string" ||
+    typeof description !== "string" ||
+    name.trim() === "" ||
+    description.trim() === ""
+  ) {
+    res.status(400).json({ message: "Missing required name and description fields." });
+  } else {
+    if (completed) {
+      req.newProject = { name: name.trim(), description: description.trim(), completed: completed };
+      next();
+    } else {
+      req.newProject = { name: name.trim(), description: description.trim() };
+      next();
+    }
+  }
+}
+
+module.exports = { validateProjectId, validateProject };
